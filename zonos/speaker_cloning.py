@@ -386,16 +386,18 @@ class SpeakerEmbedding(nn.Module):
 
 
 class SpeakerEmbeddingLDA(nn.Module):
-    def __init__(self, device: str = DEFAULT_DEVICE):
+    def __init__(self, device: str = DEFAULT_DEVICE,spk_model_path: str = None, lda_spk_model_path: str = None):
         super().__init__()
-        spk_model_path = hf_hub_download(
-            repo_id="Zyphra/Zonos-v0.1-speaker-embedding",
-            filename="ResNet293_SimAM_ASP_base.pt",
-        )
-        lda_spk_model_path = hf_hub_download(
-            repo_id="Zyphra/Zonos-v0.1-speaker-embedding",
-            filename="ResNet293_SimAM_ASP_base_LDA-128.pt",
-        )
+        if not spk_model_path:
+            spk_model_path = hf_hub_download(
+                repo_id="Zyphra/Zonos-v0.1-speaker-embedding",
+                filename="ResNet293_SimAM_ASP_base.pt",
+            )
+        if not lda_spk_model_path:
+            lda_spk_model_path = hf_hub_download(
+                repo_id="Zyphra/Zonos-v0.1-speaker-embedding",
+                filename="ResNet293_SimAM_ASP_base_LDA-128.pt",
+            )
 
         self.device = device
         with torch.device(device):
